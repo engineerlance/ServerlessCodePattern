@@ -1,0 +1,66 @@
+service: ServerlessPatternExample
+disabledDeprecations:
+  - "*"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-central-1
+  lambdaHashingVersion: 20201221
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:BatchGetItem"
+        - "dynamodb:ConditionCheckItem"
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:Query"
+        - "dynamodb:UpdateItem"
+      Resource:
+        - Fn::GetAtt:
+            - MovieTable
+            - Arn
+        - Fn::Join:
+            - "/"
+            - - Fn::GetAtt:
+                  - MovieTable
+                  - Arn
+  environment:
+    TABLE_NAME: { Ref: MovieTable }
+    API_key: "YOURAPIKEY"
+
+functions:
+  Movie:
+    handler: src/Movie/MovHandler.main
+    events:
+      - http:
+          path: /mov/create
+          method: post
+      - http:
+          path: /mov/get/{MovTitle}
+          method: get
+      - http:
+          path: /mov/delete
+          method: post
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+  - serverless-export-env
+
+resources:
+  Resources:
+    MovieTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: "PK"
+            AttributeType: "S"
+          - AttributeName: "SK"
+            AttributeType: "S"
+        KeySchema:
+          - AttributeName: "PK"
+            KeyType: "HASH"
+          - AttributeName: "SK"
+            KeyType: "RANGE"
+        BillingMode: "PAY_PER_REQUEST"
