@@ -1,32 +1,17 @@
-import { MovieSchema } from "./MovSchema";
+// import { MovieSchema } from "./MovSchema";
 import { createDbClient } from "../helpers/DynamoClient";
 import { DynamoDB } from "aws-sdk";
 
-export class Movie implements MovieSchema {
-  MovTitle: string;
-  MovYear: number;
-  MovLang: string;
-  MovCountry: string;
-  MovGenre: Array<string>;
-  MovDirector: string;
-  MovProdCompanies: Array<Object>;
+export class Movie {
   constructor(
-    MovTitle: string,
-    MovYear?: number,
-    MovLang?: string,
-    MovCountry?: string,
-    MovGenre?: Array<string>,
-    MovDirector?: string | "",
-    MovProdCompanies?: Array<Object>
-  ) {
-    this.MovTitle = MovTitle;
-    this.MovYear = MovYear as number;
-    this.MovLang = MovLang as string;
-    this.MovCountry = MovCountry as string;
-    this.MovGenre = MovGenre as Array<string>;
-    this.MovDirector = MovDirector as string;
-    this.MovProdCompanies = MovProdCompanies as Array<Object>;
-  }
+    public MovTitle: string,
+    public MovYear: number,
+    public MovLang?: string,
+    public MovCountry?: string,
+    public MovGenre?: Array<string>,
+    public MovDirector?: string | "",
+    public MovProdCompanies?: Array<Object>
+  ) {}
   get pk(): string {
     return `Movie#${this.MovTitle}`;
   }
