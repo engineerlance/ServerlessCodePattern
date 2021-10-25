@@ -1,7 +1,7 @@
 import ISO6391 from "iso-639-1";
 import Ajv from "ajv";
 const ajv = new Ajv();
-import { iInput, MovieSchema } from "./MovSchema";
+import { iInput, MovieSchema } from "./Mov.Interfaces";
 
 const inputSchema: iInput = {
   type: "object",

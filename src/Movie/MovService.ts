@@ -1,6 +1,6 @@
 import { Movie } from "./MovDAO";
 import fetch from "node-fetch";
-import { MovieSchema } from "./MovSchema";
+import { MovieSchema } from "./Mov.Interfaces";
 
 const validateRights = async (
   movName: string,
