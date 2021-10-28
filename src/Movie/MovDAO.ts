@@ -4,44 +4,47 @@ import { DynamoDB } from "aws-sdk";
 
 export class Movie {
   constructor(
-    public MovTitle: string,
-    public MovYear: number,
-    public MovLang?: string,
-    public MovCountry?: string,
-    public MovGenre?: Array<string>,
-    public MovDirector?: string | "",
-    public MovProdCompanies?: Array<Object>
+    public readonly MovTitle: string,
+    public readonly MovYear: number,
+    public readonly MovLang?: string,
+    public readonly MovCountry?: string,
+    public readonly MovGenre?: Array<string>,
+    public readonly MovDirector?: string | "",
+    public readonly MovProdCompanies?: Array<Object>
   ) {}
-  get pk(): string {
+  get PK(): string {
     return `Movie#${this.MovTitle}`;
   }
 
-  get sk(): string {
+  get SK(): string {
     return `Movie#${this.MovTitle}`;
   }
 
-  static insertMovie = async (movie: Movie): Promise<Movie> => {
+  toItem() {
+    return {
+      PK: this.PK,
+      SK: this.SK,
+      MovYear: this.MovYear,
+      MovLang: this.MovLang,
+      MovCountry: this.MovCountry,
+      MovGenre: this.MovGenre,
+      MovProdCompanies: this.MovProdCompanies,
+      MovDirector: this.MovDirector,
+    };
+  }
+
+  async save(): Promise<this> {
     const client = createDbClient();
     await client
       .put({
         TableName: process.env.TABLE_NAME!,
-        Item: {
-          PK: movie.pk,
-          SK: movie.sk,
-          Attributes: {
-            MovYear: movie.MovYear,
-            MovLang: movie.MovLang,
-            MovCountry: movie.MovCountry,
-            MovGenre: movie.MovGenre,
-            MovProdCompanies: movie.MovProdCompanies,
-            MovDirector: movie.MovLang,
-          },
-        },
+        Item: this.toItem(),
         ConditionExpression: "attribute_not_exists(PK)",
       })
       .promise();
-    return movie;
-  };
+    return this;
+  }
+
   static readMovie = async (
     movName: string
   ): Promise<DynamoDB.DocumentClient.QueryOutput> => {

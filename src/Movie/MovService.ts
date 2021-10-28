@@ -28,7 +28,7 @@ export const createMovie = async (params: MovieSchema): Promise<Movie> => {
     params.MovProdCompanies
   );
   if (await validateRights(movieToAdd.MovTitle, movieToAdd.MovYear)) {
-    await Movie.insertMovie(movieToAdd);
+    await movieToAdd.save();
     return movieToAdd;
   } else {
     throw new Error("Movie_exists_public");
