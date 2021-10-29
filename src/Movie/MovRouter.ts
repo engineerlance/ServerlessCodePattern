@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
-import { createMovie, getMovie, removeMovie } from "./MovService";
+import { createMov, readMov, removeMov } from "./MovService";
 import { paramsValidator } from "./MovValidator";
 
 export const router = async (
@@ -10,7 +10,7 @@ export const router = async (
     case "/mov/create":
       if (paramsValidator(JSON.parse(payload.body!))) {
         try {
-          return await createMovie(JSON.parse(payload.body!));
+          return await createMov(JSON.parse(payload.body!));
         } catch (e) {
           throw new Error(e);
         }
@@ -19,14 +19,13 @@ export const router = async (
       }
     case "/mov/get/{MovTitle}":
       try {
-        return await getMovie(payload.pathParameters!.MovTitle!);
+        return await readMov(payload.pathParameters!.MovTitle!);
       } catch (e) {
         throw new Error(e);
       }
-    case "/mov/delete":
-      const deletePayload = JSON.parse(payload.body!);
+    case "/mov/{MovTitle}":
       try {
-        return await removeMovie(deletePayload.PK, deletePayload.SK);
+        return await removeMov(payload.pathParameters!.MovTitle!);
       } catch (e) {
         throw new Error(e);
       }

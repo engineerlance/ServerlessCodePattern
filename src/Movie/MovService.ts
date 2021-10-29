@@ -1,6 +1,6 @@
-import { Movie } from "./MovDAO";
+import { Movie, getMovie, deleteMovie } from "../Data/MovDAO";
 import fetch from "node-fetch";
-import { MovieSchema } from "./Mov.Interfaces";
+import { MovieSchema } from "../Data/Mov.Interfaces";
 
 const validateRights = async (
   movName: string,
@@ -17,8 +17,8 @@ const validateRights = async (
   }
 };
 
-export const createMovie = async (params: MovieSchema): Promise<Movie> => {
-  const movieToAdd = new Movie(
+export const createMov = async (params: MovieSchema): Promise<Movie> => {
+  const movieobj = new Movie(
     params.MovTitle.trim(),
     params.MovYear,
     params.MovLang,
@@ -27,18 +27,22 @@ export const createMovie = async (params: MovieSchema): Promise<Movie> => {
     params.MovDirector,
     params.MovProdCompanies
   );
-  if (await validateRights(movieToAdd.MovTitle, movieToAdd.MovYear)) {
-    await movieToAdd.save();
-    return movieToAdd;
+  if (await validateRights(movieobj.MovTitle, movieobj.MovYear as number)) {
+    await movieobj.save();
+    return movieobj;
   } else {
     throw new Error("Movie_exists_public");
   }
 };
 
-export const getMovie = async (movName: string): Promise<Object> => {
-  return await Movie.readMovie(movName);
+export const readMov = async (MovTitle: string): Promise<Movie> => {
+  const movieobj = new Movie(MovTitle);
+  console.log(movieobj);
+  console.log(MovTitle);
+  return await getMovie(movieobj);
 };
 
-export const removeMovie = async (pk: string, sk: string): Promise<Object> => {
-  return await Movie.deleteMovie(pk, sk);
+export const removeMov = async (MovTitle: string): Promise<Object> => {
+  const movieobj = new Movie(MovTitle);
+  return await deleteMovie(movieobj);
 };
