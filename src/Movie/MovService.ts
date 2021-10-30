@@ -1,6 +1,6 @@
 import { Movie, getMovie, deleteMovie } from "../Data/MovDAO";
 import fetch from "node-fetch";
-import { MovieSchema } from "../Data/Mov.Interfaces";
+import { iMovie } from "../Data/Mov.Interfaces";
 
 const validateRights = async (
   movName: string,
@@ -17,7 +17,7 @@ const validateRights = async (
   }
 };
 
-export const createMov = async (params: MovieSchema): Promise<Movie> => {
+export const createMov = async (params: iMovie): Promise<Movie> => {
   const movieobj = new Movie(
     params.MovTitle.trim(),
     params.MovYear,
