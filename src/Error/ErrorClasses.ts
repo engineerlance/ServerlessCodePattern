@@ -4,10 +4,10 @@ export abstract class BaseError extends Error {
   constructor(message: string) {
     super(message);
 
-    Object.setPrototypeOf(this, BaseError.prototype);
+    Object.setPrototypeOf(this, new.target.prototype);
   }
 
-  abstract serializeErrors(): { message: string; field?: string };
+  abstract serializeErrors(): { message: string };
 }
 
 export class InvalidPayload extends BaseError {
@@ -15,8 +15,6 @@ export class InvalidPayload extends BaseError {
 
   constructor(public message: string) {
     super("Invalid_Payload");
-
-    Object.setPrototypeOf(this, InvalidPayload.prototype);
   }
 
   serializeErrors(): { message: string } {
