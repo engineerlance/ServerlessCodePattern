@@ -34,14 +34,14 @@ functions:
     handler: src/Movie/MovHandler.main
     events:
       - http:
-          path: /mov/create
+          path: /mov
           method: post
       - http:
-          path: /mov/get/{MovTitle}
+          path: /mov/{MovTitle}
           method: get
       - http:
-          path: /mov/delete
-          method: post
+          path: /mov/{MovTitle}
+          method: delete
 
 plugins:
   - serverless-esbuild

@@ -33,7 +33,7 @@ sls package
 
 ## API Endpoints 
 
-- **APIURL/stage/mov/create**: 
+- **APIURL/stage/mov**: 
   - Method: POST 
   - Payload sample:
   ```json 
@@ -45,13 +45,9 @@ sls package
   "MovDirector": "DirectorName",
   "MovProdCompanies": [{"name": "Universal", "country": "USA"}]  
   ```
-- **APIURL/dev/mov/get/{MovTitle}**: 
+- **APIURL/dev/mov/{MovTitle}**: 
   - Method: GET 
   - APIURL/dev/mov/get/NewFilm
-- **APIURL/dev/mov/delete**: 
-  - Method: POST 
-  - Payload sample:
-  ```json 
-  "PK": "Movie#NewFilm", 
-  "SK": "Movie#NewFilm"
-  ```
+- **APIURL/dev/mov/{MovTitle}**: 
+  - Method: DELETE 
+ 

@@ -6,15 +6,11 @@ const validateRights = async (
   movName: string,
   movYear: number
 ): Promise<boolean> => {
-  try {
-    const checkPublic = await fetch(
-      `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_key}&query=${movName}&year=${movYear}`
-    );
-    const existingMov = await checkPublic.json();
-    return existingMov.results.length === 0;
-  } catch {
-    throw new Error("Error_Public_API");
-  }
+  const checkPublic = await fetch(
+    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_key}&query=${movName}&year=${movYear}`
+  );
+  const existingMov = await checkPublic.json();
+  return existingMov.results.length === 0;
 };
 
 export const createMov = async (params: iMovie): Promise<Movie> => {
@@ -37,8 +33,6 @@ export const createMov = async (params: iMovie): Promise<Movie> => {
 
 export const readMov = async (MovTitle: string): Promise<Movie> => {
   const movieobj = new Movie(MovTitle);
-  console.log(movieobj);
-  console.log(MovTitle);
   return await getMovie(movieobj);
 };
 

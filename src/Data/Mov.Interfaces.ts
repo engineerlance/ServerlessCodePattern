@@ -1,4 +1,4 @@
-import { BaseEntity } from "../helpers/BaseEntity";
+import { BaseEntity } from "../Utils/BaseEntity";
 export interface iMovie extends BaseEntity {
   MovTitle: string;
   MovYear?: number;

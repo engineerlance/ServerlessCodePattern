@@ -1,7 +1,7 @@
 import ISO6391 from "iso-639-1";
 import Ajv from "ajv";
 const ajv = new Ajv();
-import { iInput, MovieSchema } from "../Data/Mov.Interfaces";
+import { iInput, iMovie } from "../Data/Mov.Interfaces";
 
 const inputSchema: iInput = {
   type: "object",
@@ -28,6 +28,6 @@ const inputSchema: iInput = {
   additionalProperties: false,
 };
 
-export const paramsValidator = (payload: MovieSchema): boolean => {
+export const paramsValidator = (payload: iMovie): boolean => {
   return ajv.validate(inputSchema, payload);
 };

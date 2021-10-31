@@ -1,5 +1,5 @@
 // import { MovieSchema } from "./MovSchema";
-import { createDbClient } from "../helpers/DynamoClient";
+import { createDbClient } from "../Utils/DynamoClient";
 import { DynamoDB } from "aws-sdk";
 import { iMovie } from "./Mov.Interfaces";
 
@@ -57,7 +57,6 @@ export const getMovie = async (Mov: Movie): Promise<Movie> => {
       Key: { PK: Mov.PK, SK: Mov.SK },
     })
     .promise();
-  console.log(res);
   if (res.Item) {
     return fromItem(res.Item);
   } else {
