@@ -21,7 +21,7 @@ export const main: APIGatewayProxyHandler = async (
     console.error(error);
     return {
       statusCode: 500,
-      body: "Unknown_Error",
+      body: JSON.stringify({ message: "Unknown_Error" }),
     };
   }
 };

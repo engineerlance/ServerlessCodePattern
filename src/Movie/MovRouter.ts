@@ -13,7 +13,10 @@ export const router = async (
         console.log(payload.body!);
         return await createMov(JSON.parse(payload.body!));
       } else {
-        throw new InvalidPayload("Invalid_Payload");
+        throw new InvalidPayload(
+          "Invalid_Payload",
+          "The JSON body provided is incorrect"
+        );
       }
     case "/mov/{MovTitle}":
       try {

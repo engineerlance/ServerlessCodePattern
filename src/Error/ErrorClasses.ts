@@ -1,23 +1,23 @@
 export abstract class BaseError extends Error {
-  abstract statusCode: number;
+  abstract readonly statusCode: number;
 
-  constructor(message: string) {
-    super(message);
+  constructor(public error_code: string, public error_message: string) {
+    super();
 
     Object.setPrototypeOf(this, new.target.prototype);
   }
 
-  abstract serializeErrors(): { message: string };
+  abstract serializeErrors(): { error_code: string; error_message: string };
 }
 
 export class InvalidPayload extends BaseError {
   statusCode = 400;
 
-  constructor(public message: string) {
-    super("Invalid_Payload");
+  constructor(public error_code: string, public error_message: string) {
+    super("Invalid_Payload", "The JSON body provided is incorrect");
   }
 
-  serializeErrors(): { message: string } {
-    return { message: this.message };
+  serializeErrors(): { error_code: string; error_message: string } {
+    return { error_code: this.error_code, error_message: this.error_message };
   }
 }
