@@ -47,11 +47,23 @@ export class Movie extends BaseEntity {
     };
   }
 
+  static fromItem(item: DynamoDB.DocumentClient.GetItemOutput["Item"]) {
+    return new Movie({
+      MovTitle: item!.MovTitle,
+      MovYear: item?.MovYear,
+      MovLang: item?.MovLang,
+      MovCountry: item?.MovCountry,
+      MovGenre: item?.MovGenre,
+      MovProdCompanies: item?.MovProdCompanies,
+      MovDirector: item?.MovDirector,
+    });
+  }
+
   async save(): Promise<this> {
     const client = createDbClient();
     await client
       .put({
-        TableName: process.env.TABLE_NAME!,
+        TableName: process.env.TABLE_NAME as string,
         Item: this.toItem(),
         ConditionExpression: "attribute_not_exists(PK)",
       })
@@ -60,43 +72,33 @@ export class Movie extends BaseEntity {
   }
 }
 
-export const getMovie = async (Mov: Movie): Promise<Movie> => {
+export const getMovie = async (MovTitle: string): Promise<Movie> => {
   const client = createDbClient();
+  const movObj = new Movie({ MovTitle: MovTitle });
   const res = await client
     .get({
-      TableName: process.env.TABLE_NAME!,
-      Key: { PK: Mov.PK, SK: Mov.SK },
+      TableName: process.env.TABLE_NAME as string,
+      Key: { PK: movObj.PK, SK: movObj.SK },
     })
     .promise();
   if (res.Item) {
-    return fromItem(res.Item);
+    return Movie.fromItem(res.Item);
   } else {
     throw new Error("no item");
   }
 };
 
 export const deleteMovie = async (
-  Mov: Movie
+  MovTitle: string
 ): Promise<DynamoDB.DocumentClient.DeleteItemOutput> => {
   const client = createDbClient();
+  const movObj = new Movie({ MovTitle: MovTitle });
   const res = await client
     .delete({
-      TableName: process.env.TABLE_NAME!,
-      Key: { PK: Mov.PK, SK: Mov.SK },
+      TableName: process.env.TABLE_NAME as string,
+      Key: { PK: movObj.PK, SK: movObj.SK },
       ConditionExpression: "attribute_exists(PK)",
     })
     .promise();
   return res;
-};
-
-const fromItem = (item: DynamoDB.DocumentClient.GetItemOutput["Item"]) => {
-  return new Movie({
-    MovTitle: item!.MovTitle,
-    MovYear: item?.MovYear,
-    MovLang: item?.MovLang,
-    MovCountry: item?.MovCountry,
-    MovGenre: item?.MovGenre,
-    MovProdCompanies: item?.MovProdCompanies,
-    MovDirector: item?.MovDirector,
-  });
 };

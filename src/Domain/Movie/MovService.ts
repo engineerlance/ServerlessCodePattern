@@ -1,6 +1,5 @@
 import { Movie, getMovie, deleteMovie } from "../../Data/Movie/MovDAO";
 import fetch from "node-fetch";
-import { iMovie } from "../../Data/Movie/Mov.Interfaces";
 
 const validateRights = async (
   movName: string,
@@ -33,11 +32,9 @@ export const createMov = async (params): Promise<Movie> => {
 };
 
 export const readMov = async (MovTitle: string): Promise<Movie> => {
-  const movieobj = new Movie({ MovTitle: MovTitle });
-  return await getMovie(movieobj);
+  return await getMovie(MovTitle);
 };
 
 export const removeMov = async (MovTitle: string): Promise<Object> => {
-  const movieobj = new Movie({ MovTitle: MovTitle });
-  return await deleteMovie(movieobj);
+  return await deleteMovie(MovTitle);
 };
