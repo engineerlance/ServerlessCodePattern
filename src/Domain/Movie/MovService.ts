@@ -13,7 +13,7 @@ const validateRights = async (
   return existingMov.results.length === 0;
 };
 
-export const createMov = async (params: iMovie): Promise<Movie> => {
+export const createMov = async (params): Promise<Movie> => {
   const movieobj = new Movie({
     MovTitle: params!.MovTitle,
     MovYear: params?.MovYear,
