@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler } from "aws-lambda";
 import { router } from "./MovRouter";
-import { BaseError } from "../Error/ErrorClasses";
+import { BaseError } from "../../Error/ErrorClasses";
 
 export const main: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent

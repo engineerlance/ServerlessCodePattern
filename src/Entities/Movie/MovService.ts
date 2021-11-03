@@ -1,6 +1,6 @@
-import { Movie, getMovie, deleteMovie } from "../Data/MovDAO";
+import { Movie, getMovie, deleteMovie } from "../../Data/Movie/MovDAO";
 import fetch from "node-fetch";
-import { iMovie } from "../Data/Mov.Interfaces";
+import { iMovie } from "../../Data/Movie/Mov.Interfaces";
 
 const validateRights = async (
   movName: string,
@@ -14,15 +14,16 @@ const validateRights = async (
 };
 
 export const createMov = async (params: iMovie): Promise<Movie> => {
-  const movieobj = new Movie(
-    params.MovTitle.trim(),
-    params.MovYear,
-    params.MovLang,
-    params.MovCountry,
-    params.MovGenre,
-    params.MovDirector,
-    params.MovProdCompanies
-  );
+  const movieobj = new Movie({
+    MovTitle: params!.MovTitle,
+    MovYear: params?.MovYear,
+    MovLang: params?.MovLang,
+    MovCountry: params?.MovCountry,
+    MovGenre: params?.MovGenre,
+    MovProdCompanies: params?.MovProdCompanies,
+    MovDirector: params?.MovDirector,
+  });
+
   if (await validateRights(movieobj.MovTitle, movieobj.MovYear as number)) {
     await movieobj.save();
     return movieobj;
@@ -32,11 +33,11 @@ export const createMov = async (params: iMovie): Promise<Movie> => {
 };
 
 export const readMov = async (MovTitle: string): Promise<Movie> => {
-  const movieobj = new Movie(MovTitle);
+  const movieobj = new Movie({ MovTitle: MovTitle });
   return await getMovie(movieobj);
 };
 
 export const removeMov = async (MovTitle: string): Promise<Object> => {
-  const movieobj = new Movie(MovTitle);
+  const movieobj = new Movie({ MovTitle: MovTitle });
   return await deleteMovie(movieobj);
 };

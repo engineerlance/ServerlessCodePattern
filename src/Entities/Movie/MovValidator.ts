@@ -1,7 +1,14 @@
 import ISO6391 from "iso-639-1";
 import Ajv from "ajv";
 const ajv = new Ajv();
-import { iInput, iMovie } from "../Data/Mov.Interfaces";
+import { iMovie } from "../../Data/Movie/Mov.Interfaces";
+
+interface iInput {
+  type: string;
+  properties: Record<keyof Omit<iMovie, "PK" | "SK" | "AuditData">, object>;
+  required: Array<string>;
+  additionalProperties: boolean;
+}
 
 const inputSchema: iInput = {
   type: "object",

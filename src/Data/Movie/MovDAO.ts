@@ -1,18 +1,28 @@
 // import { MovieSchema } from "./MovSchema";
-import { createDbClient } from "../Utils/DynamoClient";
+import { createDbClient } from "../DB/DynamoClient";
 import { DynamoDB } from "aws-sdk";
 import { iMovie } from "./Mov.Interfaces";
+import { BaseEntity } from "../DB/BaseEntity";
 
-export class Movie implements iMovie {
-  constructor(
-    public readonly MovTitle: string,
-    public readonly MovYear?: number,
-    public readonly MovLang?: string,
-    public readonly MovCountry?: string,
-    public readonly MovGenre?: Array<string>,
-    public readonly MovDirector?: string | "",
-    public readonly MovProdCompanies?: Array<Object>
-  ) {}
+export class Movie extends BaseEntity {
+  readonly MovTitle: string;
+  readonly MovYear?: number;
+  readonly MovLang?: string;
+  readonly MovCountry?: string;
+  readonly MovGenre?: Array<string>;
+  readonly MovDirector?: string | "";
+  readonly MovProdCompanies?: Array<Object>;
+
+  constructor(props: iMovie) {
+    super(props.AuditData ? props.AuditData : {});
+    this.MovTitle = props.MovTitle;
+    this.MovYear = props.MovYear;
+    this.MovLang = props.MovLang;
+    this.MovCountry = props.MovCountry;
+    this.MovGenre = props.MovGenre;
+    this.MovDirector = props.MovDirector;
+    this.MovProdCompanies = props.MovProdCompanies;
+  }
 
   get PK(): string {
     return `Movie#${this.MovTitle}`;
@@ -33,6 +43,7 @@ export class Movie implements iMovie {
       MovGenre: this.MovGenre,
       MovProdCompanies: this.MovProdCompanies,
       MovDirector: this.MovDirector,
+      ...this.auditObj(),
     };
   }
 
@@ -79,13 +90,13 @@ export const deleteMovie = async (
 };
 
 const fromItem = (item: DynamoDB.DocumentClient.GetItemOutput["Item"]) => {
-  return new Movie(
-    item!.MovTitle,
-    item?.MovYear,
-    item?.MovLang,
-    item?.MovCountry,
-    item?.MovGenre,
-    item?.MovProdCompanies,
-    item?.MovDirector
-  );
+  return new Movie({
+    MovTitle: item!.MovTitle,
+    MovYear: item?.MovYear,
+    MovLang: item?.MovLang,
+    MovCountry: item?.MovCountry,
+    MovGenre: item?.MovGenre,
+    MovProdCompanies: item?.MovProdCompanies,
+    MovDirector: item?.MovDirector,
+  });
 };

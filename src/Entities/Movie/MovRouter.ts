@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
 import { createMov, readMov, removeMov } from "./MovService";
 import { paramsValidator } from "./MovValidator";
-import { InvalidPayload } from "../Error/ErrorClasses";
+import { InvalidPayload } from "../../Error/ErrorClasses";
 
 export const router = async (
   route: APIGatewayProxyEvent["resource"],
@@ -10,7 +10,6 @@ export const router = async (
   switch (route) {
     case "/mov":
       if (paramsValidator(JSON.parse(payload.body!))) {
-        console.log(payload.body!);
         return await createMov(JSON.parse(payload.body!));
       } else {
         throw new InvalidPayload(
