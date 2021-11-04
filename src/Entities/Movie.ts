@@ -1,5 +1,11 @@
 import { iMovie } from "./Mov.Interfaces";
 import { BaseEntity } from "./BaseEntity";
+import ISO6391 from "iso-639-1";
+
+function validateLang(lang: string) {
+  const langList = ISO6391.getAllCodes();
+  return langList.includes(lang);
+}
 
 export class Movie extends BaseEntity {
   readonly MovTitle: string;
@@ -23,6 +29,12 @@ export class Movie extends BaseEntity {
 
   static create(props: iMovie): Movie {
     //Runtime validation goes here
+    if (props.MovLang) {
+      if (validateLang(props.MovLang) === false) {
+        throw new Error("invalid language format");
+      }
+    }
+
     return new Movie(props);
   }
 }
