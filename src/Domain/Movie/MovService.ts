@@ -1,5 +1,8 @@
-import { Movie, getMovie, deleteMovie } from "../../Data/Movie/MovDAO";
 import fetch from "node-fetch";
+import { addMovieRepo } from "../../Data/Movie/addMovieRepo";
+import { deleteMovieRepo } from "../../Data/Movie/deleteMovieRepo";
+import { getMovieRepo } from "../../Data/Movie/getMovieRepo";
+import { Movie } from "../../Entities/Movie";
 
 const validateRights = async (
   movName: string,
@@ -24,7 +27,8 @@ export const createMov = async (params): Promise<Movie> => {
   });
 
   if (await validateRights(movieobj.MovTitle, movieobj.MovYear as number)) {
-    await movieobj.save();
+    const addMovie = new addMovieRepo();
+    await addMovie.save(movieobj);
     return movieobj;
   } else {
     throw new Error("Movie_exists_public");
@@ -32,9 +36,11 @@ export const createMov = async (params): Promise<Movie> => {
 };
 
 export const readMov = async (MovTitle: string): Promise<Movie> => {
-  return await getMovie(MovTitle);
+  const getMovie = new getMovieRepo();
+  return await getMovie.get(MovTitle);
 };
 
-export const removeMov = async (MovTitle: string): Promise<Object> => {
-  return await deleteMovie(MovTitle);
+export const removeMov = async (MovTitle: string) => {
+  const removeMovie = new deleteMovieRepo();
+  return await removeMovie.deleteMovie(MovTitle);
 };
