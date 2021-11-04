@@ -27,11 +27,11 @@ provider:
                   - Arn
   environment:
     TABLE_NAME: { Ref: MovieTable }
-    API_key: "YOURAPIKEY"
+    API_key: Yourkey
 
 functions:
   Movie:
-    handler: src/Movie/MovHandler.main
+    handler: src/Domain/Movie/MovHandler.main
     events:
       - http:
           path: /mov

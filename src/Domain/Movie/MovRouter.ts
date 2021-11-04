@@ -20,10 +20,9 @@ export const router = async (
     case "/mov/{MovTitle}":
       try {
         if (payload.httpMethod === "GET") {
-          console.log(payload.pathParameters!.MovTitle!);
-          return await readMov(payload.pathParameters!.MovTitle!);
+          return await readMov(payload.pathParameters?.MovTitle!);
         } else {
-          return await removeMov(payload.pathParameters!.MovTitle!);
+          return await removeMov(payload.pathParameters?.MovTitle!);
         }
       } catch (e) {
         throw new Error(e);
