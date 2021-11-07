@@ -1,12 +1,12 @@
 import { createDbClient } from "../DB/DynamoClient";
 import { DynamoDB } from "aws-sdk";
 import { Movie } from "../../Entities/Movie";
+import { baseMovieRepo } from "./baseMovieRepo";
 
-export class addMovieRepo {
+export class addMovieRepo extends baseMovieRepo {
   toItem(movie: Movie) {
     return {
-      PK: `Movie#${movie.MovTitle}`,
-      SK: `Movie#${movie.MovTitle}`,
+      ...this.keys(movie),
       MovTitle: movie.MovTitle,
       MovYear: movie.MovYear,
       MovLang: movie.MovLang,

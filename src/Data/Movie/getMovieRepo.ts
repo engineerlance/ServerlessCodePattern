@@ -1,12 +1,12 @@
 import { createDbClient } from "../DB/DynamoClient";
 import { DynamoDB } from "aws-sdk";
 import { Movie } from "../../Entities/Movie";
+import { baseMovieRepo } from "./baseMovieRepo";
 
-export class getMovieRepo {
+export class getMovieRepo extends baseMovieRepo {
   toItem(movie: Movie) {
     return {
-      PK: `Movie#${movie.MovTitle}`,
-      SK: `Movie#${movie.MovTitle}`,
+      ...this.keys(movie),
       MovTitle: movie.MovTitle,
     };
   }
@@ -26,11 +26,10 @@ export class getMovieRepo {
   public async get(MovTitle: string): Promise<Movie> {
     const client = createDbClient();
     const movObj = new Movie({ MovTitle: MovTitle });
-    const movItem = this.toItem(movObj);
     const res = await client
       .get({
         TableName: process.env.TABLE_NAME as string,
-        Key: { PK: movItem.PK, SK: movItem.SK },
+        Key: this.keys(movObj),
       })
       .promise();
     if (res.Item) {

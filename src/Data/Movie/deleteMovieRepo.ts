@@ -1,12 +1,12 @@
 import { createDbClient } from "../DB/DynamoClient";
 import { DynamoDB } from "aws-sdk";
 import { Movie } from "../../Entities/Movie";
+import { baseMovieRepo } from "./baseMovieRepo";
 
-export class deleteMovieRepo {
-  toItem(movie: Movie) {
+export class deleteMovieRepo extends baseMovieRepo {
+  toItem(movie: Movie): Record<string, unknown> {
     return {
-      PK: `Movie#${movie.MovTitle}`,
-      SK: `Movie#${movie.MovTitle}`,
+      ...this.keys(movie),
       MovTitle: movie.MovTitle,
     };
   }
@@ -16,11 +16,10 @@ export class deleteMovieRepo {
   ): Promise<DynamoDB.DocumentClient.DeleteItemOutput> {
     const client = createDbClient();
     const movObj = new Movie({ MovTitle: MovTitle });
-    const movItem = this.toItem(movObj);
     const res = await client
       .delete({
         TableName: process.env.TABLE_NAME as string,
-        Key: { PK: movItem.PK, SK: movItem.SK },
+        Key: this.keys(movObj),
       })
       .promise();
     return res;
