@@ -7,3 +7,5 @@ jspm_packages
 .esbuild
 test.js
 .vscode
+coverage
+Integration/test.ts
