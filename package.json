@@ -4,8 +4,8 @@
     "description": "",
     "main": "handler.js",
     "scripts": {
-        "unit": "jest  --coverage --testPathIgnorePatterns=Integration/",
-        "integration": "jest  Integration/"
+        "unit": "jest  --coverage --testPathIgnorePatterns=src/Integration/",
+        "integration": "jest  src/Integration/"
     },
     "author": "",
     "license": "ISC",
