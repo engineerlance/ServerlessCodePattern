@@ -3,7 +3,7 @@ const client = new Lambda({ region: "eu-central-1" })
 import { MockEvent } from "./mock"
 
 const params = {
-    FunctionName: "arn:aws:lambda:eu-central-1:487164077680:function:ServerlessPatternExample-dev-Movie",
+    FunctionName: "ServerlessPatternExample-dev-Movie",
     Payload: JSON.stringify(MockEvent)
 }
 
