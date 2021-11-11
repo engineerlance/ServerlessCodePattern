@@ -30,7 +30,7 @@ export class Movie extends BaseEntity {
   static create(props: iMovie): Movie {
     //Runtime validation goes here
     if (props.MovLang) {
-      if (validateLang(props.MovLang) === false) {
+      if (!validateLang(props.MovLang)) {
         throw new Error("invalid language format");
       }
     }

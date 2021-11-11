@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import { addMovieRepo } from "../../Data/Movie/addMovieRepo";
 import { deleteMovieRepo } from "../../Data/Movie/deleteMovieRepo";
 import { getMovieRepo } from "../../Data/Movie/getMovieRepo";
-import { Movie } from "../../Entities/Movie";
+import { Movie } from "../../Entities/Movie/Movie";
 
 const validateRights = async (
   movName: string,
