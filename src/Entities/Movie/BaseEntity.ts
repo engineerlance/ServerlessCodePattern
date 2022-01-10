@@ -4,26 +4,17 @@ export interface AuditData {
 }
 
 export abstract class BaseEntity {
-    private lastModifiedAt: string
-    private readonly createdAt: string
+    public lastModifiedAt: string
+    public readonly createdAt?: string
 
-    protected constructor(data: AuditData) {
-        const creationDate = data.createdAt ? new Date(data.createdAt).toISOString() : new Date().toISOString()
-        this.createdAt = creationDate
-        this.lastModifiedAt = creationDate
-    }
-
-    public get CreatedAt() {
-        return this.createdAt
-    }
-
-    public get LastModifiedAt() {
-        return this.lastModifiedAt
+    constructor(data: AuditData) {
+        if (data.createdAt) this.createdAt = data.createdAt.toISOString()
+        this.lastModifiedAt = new Date().toISOString()
     }
 
     auditObj() {
         return {
-            createdAt: this.createdAt,
+            ...(this.createdAt && { createdAt: this.createdAt }),
             lastModifiedAt: this.lastModifiedAt
         }
     }

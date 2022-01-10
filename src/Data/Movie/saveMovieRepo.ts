@@ -2,6 +2,7 @@ import { createDbClient } from "../DB/DynamoClient"
 import { DynamoDB } from "aws-sdk"
 import { Movie } from "../../Entities/Movie/Movie"
 import { baseMovieRepo } from "./baseMovieRepo"
+import { dynamicUpdateExpression } from "../DB/utils"
 
 export class addMovieRepo extends baseMovieRepo {
     toItem(movie: Movie) {
@@ -26,7 +27,11 @@ export class addMovieRepo extends baseMovieRepo {
             MovCountry: item?.MovCountry,
             MovGenre: item?.MovGenre,
             MovProdCompanies: item?.MovProdCompanies,
-            MovDirector: item?.MovDirector
+            MovDirector: item?.MovDirector,
+            AuditData: {
+                createdAt: new Date(item?.createdAt),
+                lastModifiedAt: new Date(item?.lastModifiedAt)
+            }
         })
     }
 
@@ -40,5 +45,23 @@ export class addMovieRepo extends baseMovieRepo {
                 ConditionExpression: "attribute_not_exists(PK)"
             })
             .promise()
+    }
+
+    public async update(movie: Movie) {
+        const client = createDbClient()
+        const movItem = this.toItem(movie)
+        const updateOperation = dynamicUpdateExpression(movItem)
+        const res = await client
+            .update({
+                TableName: process.env.TABLE_NAME as string,
+                Key: this.keys(movie),
+                ConditionExpression: "attribute_exists(PK)",
+                UpdateExpression: updateOperation.updateExpression,
+                ExpressionAttributeNames: updateOperation.ExpressionAttributeNames,
+                ExpressionAttributeValues: updateOperation.ExpressionAttributeValues,
+                ReturnValues: "ALL_NEW"
+            })
+            .promise()
+        return addMovieRepo.fromItem(res.Attributes)
     }
 }

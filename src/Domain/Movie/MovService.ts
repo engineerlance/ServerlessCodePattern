@@ -1,15 +1,15 @@
 import fetch from "node-fetch"
-import { addMovieRepo } from "../../Data/Movie/addMovieRepo"
+import { addMovieRepo } from "../../Data/Movie/saveMovieRepo"
 import { deleteMovieRepo } from "../../Data/Movie/deleteMovieRepo"
 import { getMovieRepo } from "../../Data/Movie/getMovieRepo"
-import { Movie } from "../../Entities/Movie"
+import { Movie } from "../../Entities/Movie/Movie"
 
 const validateRights = async (movName: string, movYear: number): Promise<boolean> => {
     const checkPublic = await fetch(
         `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_key}&query=${movName}&year=${movYear}`
     )
     const existingMov = await checkPublic.json()
-    return existingMov.results.length === 0
+    return !!existingMov
 }
 
 export const createMov = async (params): Promise<Movie> => {
@@ -20,7 +20,10 @@ export const createMov = async (params): Promise<Movie> => {
         MovCountry: params?.MovCountry,
         MovGenre: params?.MovGenre,
         MovProdCompanies: params?.MovProdCompanies,
-        MovDirector: params?.MovDirector
+        MovDirector: params?.MovDirector,
+        AuditData: {
+            createdAt: new Date()
+        }
     })
 
     if (await validateRights(movieobj.MovTitle, movieobj.MovYear as number)) {
