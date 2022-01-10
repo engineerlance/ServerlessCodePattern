@@ -1,4 +1,4 @@
-import { Movie } from "../../Entities/Movie";
+import { Movie } from "../../Entities/Movie/Movie";
 import { DynamoDB } from "aws-sdk";
 
 export abstract class baseMovieRepo {

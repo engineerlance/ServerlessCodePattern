@@ -2,7 +2,7 @@
 import { createDbClient } from "../DB/DynamoClient";
 import { DynamoDB } from "aws-sdk";
 import { iMovie } from "./Mov.Interfaces";
-import { BaseEntity } from "../../Entities/BaseEntity";
+import { BaseEntity } from "../../Entities/Movie/BaseEntity";
 
 export class Movie extends BaseEntity {
   readonly MovTitle: string;

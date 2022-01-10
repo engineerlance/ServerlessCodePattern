@@ -1,4 +1,4 @@
-import { AuditData } from "../../Entities/BaseEntity";
+import { AuditData } from "../../Entities/Movie/BaseEntity";
 
 export interface iMovie {
   MovTitle: string;

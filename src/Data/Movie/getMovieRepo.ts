@@ -1,6 +1,6 @@
 import { createDbClient } from "../DB/DynamoClient";
 import { DynamoDB } from "aws-sdk";
-import { Movie } from "../../Entities/Movie";
+import { Movie } from "../../Entities/Movie/Movie";
 import { baseMovieRepo } from "./baseMovieRepo";
 
 export class getMovieRepo extends baseMovieRepo {
