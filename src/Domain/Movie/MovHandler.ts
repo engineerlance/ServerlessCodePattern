@@ -3,7 +3,7 @@ import { router } from "./MovRouter"
 import { BaseError } from "../../Error/ErrorClasses"
 
 export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
-    console.log(event)
+    // console.log(event)
     try {
         const result = await router(event.resource, event)
         return {

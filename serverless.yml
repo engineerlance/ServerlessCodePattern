@@ -1,66 +1,67 @@
 service: ServerlessPatternExample
 disabledDeprecations:
-  - "*"
+    - "*"
 
 provider:
-  name: aws
-  runtime: nodejs14.x
-  region: eu-central-1
-  lambdaHashingVersion: 20201221
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "dynamodb:BatchGetItem"
-        - "dynamodb:ConditionCheckItem"
-        - "dynamodb:GetItem"
-        - "dynamodb:PutItem"
-        - "dynamodb:Query"
-        - "dynamodb:UpdateItem"
-      Resource:
-        - Fn::GetAtt:
-            - MovieTable
-            - Arn
-        - Fn::Join:
-            - "/"
-            - - Fn::GetAtt:
-                  - MovieTable
-                  - Arn
-  environment:
-    TABLE_NAME: { Ref: MovieTable }
-    API_key: Yourkey
+    name: aws
+    runtime: nodejs14.x
+    region: eu-central-1
+    profile: tiProfile
+    lambdaHashingVersion: 20201221
+    iamRoleStatements:
+        - Effect: "Allow"
+          Action:
+              - "dynamodb:BatchGetItem"
+              - "dynamodb:ConditionCheckItem"
+              - "dynamodb:GetItem"
+              - "dynamodb:PutItem"
+              - "dynamodb:Query"
+              - "dynamodb:UpdateItem"
+          Resource:
+              - Fn::GetAtt:
+                    - MovieTable
+                    - Arn
+              - Fn::Join:
+                    - "/"
+                    - - Fn::GetAtt:
+                            - MovieTable
+                            - Arn
+    environment:
+        TABLE_NAME: { Ref: MovieTable }
+        API_key: Yourkey
 
 functions:
-  Movie:
-    handler: src/Domain/Movie/MovHandler.main
-    events:
-      - http:
-          path: /mov
-          method: post
-      - http:
-          path: /mov/{MovTitle}
-          method: get
-      - http:
-          path: /mov/{MovTitle}
-          method: delete
+    Movie:
+        handler: src/Domain/Movie/MovHandler.main
+        events:
+            - http:
+                  path: /mov
+                  method: post
+            - http:
+                  path: /mov/{MovTitle}
+                  method: get
+            - http:
+                  path: /mov/{MovTitle}
+                  method: delete
 
 plugins:
-  - serverless-esbuild
-  - serverless-offline
-  - serverless-export-env
+    - serverless-esbuild
+    - serverless-offline
+    - serverless-export-env
 
 resources:
-  Resources:
-    MovieTable:
-      Type: "AWS::DynamoDB::Table"
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: "PK"
-            AttributeType: "S"
-          - AttributeName: "SK"
-            AttributeType: "S"
-        KeySchema:
-          - AttributeName: "PK"
-            KeyType: "HASH"
-          - AttributeName: "SK"
-            KeyType: "RANGE"
-        BillingMode: "PAY_PER_REQUEST"
+    Resources:
+        MovieTable:
+            Type: "AWS::DynamoDB::Table"
+            Properties:
+                AttributeDefinitions:
+                    - AttributeName: "PK"
+                      AttributeType: "S"
+                    - AttributeName: "SK"
+                      AttributeType: "S"
+                KeySchema:
+                    - AttributeName: "PK"
+                      KeyType: "HASH"
+                    - AttributeName: "SK"
+                      KeyType: "RANGE"
+                BillingMode: "PAY_PER_REQUEST"
