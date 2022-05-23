@@ -13,7 +13,8 @@
         "ajv": "^8.6.2",
         "iso-3166-1": "^2.0.1",
         "iso-639-1": "^2.1.9",
-        "reflect-metadata": "^0.1.13"
+        "reflect-metadata": "^0.1.13",
+        "zod": "^3.17.2"
     },
     "devDependencies": {
         "@types/aws-lambda": "^8.10.59",

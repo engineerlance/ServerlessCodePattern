@@ -1,40 +1,24 @@
-import ISO6391 from "iso-639-1";
-import Ajv from "ajv";
-const ajv = new Ajv();
-import { iMovie } from "../../Data/Movie/Mov.Interfaces";
+import { z, ZodSchema } from "zod"
 
-interface iInput {
-  type: string;
-  properties: Record<keyof Omit<iMovie, "PK" | "SK" | "AuditData">, object>;
-  required: Array<string>;
-  additionalProperties: boolean;
-}
+export const movieSchema = z
+    .object({
+        MovTitle: z.string().min(1),
+        MovYear: z.number().lte(2050).gte(1900),
+        MovLang: z.string().optional(),
+        MovCountry: z.string().optional(),
+        MovGenre: z.array(z.string()).optional(),
+        MovDirector: z.string().optional(),
+        MovProdCompanies: z
+            .array(
+                z.object({
+                    country: z.string().optional(),
+                    name: z.string().optional()
+                })
+            )
+            .optional()
+    })
+    .strict()
 
-const inputSchema: iInput = {
-  type: "object",
-  properties: {
-    MovTitle: { type: "string" },
-    MovYear: { type: "integer", minimum: 1900, maximum: 2027 },
-    MovLang: { type: "string", enum: ISO6391.getAllCodes() },
-    MovCountry: { type: "string" },
-    MovGenre: { type: "array", uniqueItems: true, items: { type: "string" } },
-    MovDirector: { type: "string" },
-    MovProdCompanies: {
-      type: "array",
-      uniqueItems: true,
-      items: {
-        type: "object",
-        properties: {
-          country: { type: "string" },
-          name: { type: "string" },
-        },
-      },
-    },
-  },
-  required: ["MovTitle", "MovYear"],
-  additionalProperties: false,
-};
+export type TMovie = z.infer<typeof movieSchema>
 
-export const paramsValidator = (payload: iMovie): boolean => {
-  return ajv.validate(inputSchema, payload);
-};
+export const paramsValidator = async (input: Record<string, unknown>, schema: ZodSchema) => schema.parseAsync(input)
