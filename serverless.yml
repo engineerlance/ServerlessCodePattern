@@ -5,7 +5,7 @@ disabledDeprecations:
 provider:
     name: aws
     runtime: nodejs14.x
-    region: eu-central-1
+    region: eu-west-1
     profile: devProfile
     lambdaHashingVersion: 20201221
     iamRoleStatements:
@@ -28,7 +28,7 @@ provider:
                             - Arn
     environment:
         TABLE_NAME: { Ref: MovieTable }
-        API_key: Yourkey
+        API_key: e8ef122353472f0045fddbfc042a45cd
 
 functions:
     Movie:
@@ -48,6 +48,7 @@ plugins:
     - serverless-esbuild
     - serverless-offline
     - serverless-export-env
+    - serverless-step-functions
 
 resources:
     Resources:
@@ -65,3 +66,18 @@ resources:
                     - AttributeName: "SK"
                       KeyType: "RANGE"
                 BillingMode: "PAY_PER_REQUEST"
+
+stepFunctions:
+    validate: true
+    stateMachines:
+        hellostepfunc1:
+            name: testStateMachine
+            definition:
+                Comment: "A test task state for the state machine plug-in"
+                StartAt: testNumeroUno
+                States:
+                    testNumeroUno:
+                        Type: Task
+                        Resource:
+                            Fn::GetAtt: [Movie, Arn]
+                        End: true

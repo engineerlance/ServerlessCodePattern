@@ -13,7 +13,7 @@ export abstract class BaseError extends Error {
 export class InvalidPayload extends BaseError {
     statusCode = 400
 
-    constructor(public error_code: string, public error_message: string) {
+    constructor() {
         super("Invalid_Payload", "The JSON body provided is incorrect")
     }
 

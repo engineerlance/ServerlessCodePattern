@@ -21,8 +21,8 @@ export const MockEvent = {
         Connection: ["keep-alive"]
     },
     multiValueQueryStringParameters: null,
-    path: "/mov/newfilm123",
-    pathParameters: { MovTitle: "newfilm123" },
+    path: "/mov/NewFilm",
+    pathParameters: { MovTitle: "NewFilm" },
     queryStringParameters: null,
     requestContext: {
         accountId: "offlineContext_accountId",

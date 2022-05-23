@@ -1,4 +1,4 @@
-import { iMovie } from "./Mov.Interfaces"
+import { iMovie } from "./MovInterface"
 import { BaseEntity } from "./BaseEntity"
 import ISO6391 from "iso-639-1"
 

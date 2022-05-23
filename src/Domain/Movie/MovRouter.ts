@@ -9,7 +9,7 @@ export const router = async (route: APIGatewayProxyEvent["resource"], payload: A
             if (paramsValidator(JSON.parse(payload.body!))) {
                 return await createMov(JSON.parse(payload.body!))
             } else {
-                throw new InvalidPayload("Invalid_Payload", "The JSON body provided is incorrect")
+                throw new InvalidPayload()
             }
         case "/mov/{MovTitle}":
             try {
