@@ -21,8 +21,8 @@ export class getMovieRepo extends baseMovieRepo {
             MovProdCompanies: item?.MovProdCompanies,
             MovDirector: item?.MovDirector,
             AuditData: {
-                createdAt: item?.createdAt,
-                lastModifiedAt: item?.lastModifiedAt
+                createdAt: new Date(item?.createdAt),
+                lastModifiedAt: new Date(item?.lastModifiedAt)
             }
         })
     }
