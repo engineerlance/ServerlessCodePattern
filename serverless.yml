@@ -66,18 +66,3 @@ resources:
                     - AttributeName: "SK"
                       KeyType: "RANGE"
                 BillingMode: "PAY_PER_REQUEST"
-
-stepFunctions:
-    validate: true
-    stateMachines:
-        hellostepfunc1:
-            name: testStateMachine
-            definition:
-                Comment: "A test task state for the state machine plug-in"
-                StartAt: testNumeroUno
-                States:
-                    testNumeroUno:
-                        Type: Task
-                        Resource:
-                            Fn::GetAtt: [Movie, Arn]
-                        End: true
