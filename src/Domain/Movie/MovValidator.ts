@@ -1,4 +1,5 @@
 import { z, ZodSchema } from "zod"
+import { genreTuple } from "../../Entities/Movie/MovInterface"
 
 export const movieSchema = z
     .object({
@@ -6,13 +7,13 @@ export const movieSchema = z
         MovYear: z.number().lte(2050).gte(1900),
         MovLang: z.string().optional(),
         MovCountry: z.string().optional(),
-        MovGenre: z.array(z.string()).optional(),
+        MovGenre: z.array(z.enum(genreTuple)).optional(),
         MovDirector: z.string().optional(),
         MovProdCompanies: z
             .array(
                 z.object({
-                    country: z.string().optional(),
-                    name: z.string().optional()
+                    country: z.string(),
+                    name: z.string()
                 })
             )
             .optional()

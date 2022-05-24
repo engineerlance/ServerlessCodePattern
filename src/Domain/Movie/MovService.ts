@@ -3,6 +3,7 @@ import { addMovieRepo } from "../../Data/Movie/saveMovieRepo"
 import { deleteMovieRepo } from "../../Data/Movie/deleteMovieRepo"
 import { getMovieRepo } from "../../Data/Movie/getMovieRepo"
 import { Movie } from "../../Entities/Movie/Movie"
+import { TMovie } from "./MovValidator"
 
 const validateRights = async (movName: string, movYear: number): Promise<boolean> => {
     const checkPublic = await fetch(
@@ -12,10 +13,10 @@ const validateRights = async (movName: string, movYear: number): Promise<boolean
     return !!existingMov
 }
 
-export const createMov = async (params): Promise<Movie> => {
-    const movieobj = new Movie({
+export const createMov = async (params: TMovie): Promise<Movie> => {
+    const movieobj = Movie.create({
         MovTitle: params.MovTitle,
-        MovYear: params?.MovYear,
+        MovYear: params.MovYear,
         MovLang: params?.MovLang,
         MovCountry: params?.MovCountry,
         MovGenre: params?.MovGenre,
@@ -26,7 +27,7 @@ export const createMov = async (params): Promise<Movie> => {
         }
     })
 
-    if (await validateRights(movieobj.MovTitle, movieobj.MovYear as number)) {
+    if (await validateRights(movieobj.MovTitle, movieobj.MovYear)) {
         const addMovie = new addMovieRepo()
         await addMovie.save(movieobj)
         return movieobj
