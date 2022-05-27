@@ -7,7 +7,7 @@ export interface MovProdCompanies {
 
 export interface iMovie {
     MovTitle: string
-    MovYear: number
+    MovYear?: number
     MovLang?: string
     MovCountry?: string
     MovGenre?: Genre

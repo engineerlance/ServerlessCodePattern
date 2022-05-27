@@ -16,7 +16,7 @@ const validateRights = async (movName: string, movYear: number): Promise<boolean
 export const createMov = async (params: TMovie): Promise<Movie> => {
     const movieobj = Movie.create({
         MovTitle: params.MovTitle,
-        MovYear: params.MovYear,
+        MovYear: params?.MovYear,
         MovLang: params?.MovLang,
         MovCountry: params?.MovCountry,
         MovGenre: params?.MovGenre,
@@ -27,7 +27,7 @@ export const createMov = async (params: TMovie): Promise<Movie> => {
         }
     })
 
-    if (await validateRights(movieobj.MovTitle, movieobj.MovYear)) {
+    if (movieobj.MovYear && (await validateRights(movieobj.MovTitle, movieobj.MovYear))) {
         const addMovie = new addMovieRepo()
         await addMovie.save(movieobj)
         return movieobj

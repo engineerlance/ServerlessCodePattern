@@ -25,7 +25,7 @@ const GenreValues: Readonly<Record<string, GenreUnion>> = {
 export const movieSchema = z
     .object({
         MovTitle: z.string().min(5).max(100),
-        MovYear: z.number().lte(2050).gte(1900),
+        MovYear: z.number().lte(2050).gte(1900).optional(),
         MovLang: z.string().optional(),
         MovCountry: z.string().optional(),
         MovGenre: z

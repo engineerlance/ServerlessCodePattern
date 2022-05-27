@@ -9,7 +9,7 @@ function validateLang(lang: string) {
 
 export class Movie extends BaseEntity {
     readonly MovTitle: string
-    readonly MovYear: number
+    readonly MovYear?: number
     readonly MovLang?: string
     readonly MovCountry?: string
     readonly MovGenre?: Genre
