@@ -1,7 +1,9 @@
+import { ExpressionAttributeNameMap, ExpressionAttributeValueMap } from "aws-sdk/clients/dynamodb"
+
 export function dynamicUpdateExpression<T extends Record<string, unknown>>(item: T) {
     let updateExpression = "set"
-    let ExpressionAttributeNames = {}
-    let ExpressionAttributeValues = {}
+    let ExpressionAttributeNames: ExpressionAttributeNameMap = {}
+    let ExpressionAttributeValues: Record<string, unknown> = {}
     for (const property in item) {
         if (property !== "PK" && property !== "SK") {
             updateExpression += ` #${property} = :${property} ,`

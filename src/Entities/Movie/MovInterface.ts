@@ -1,5 +1,10 @@
 import { AuditData } from "./BaseEntity"
 
+export interface MovProdCompanies {
+    country: string
+    name: string
+}
+
 export interface iMovie {
     MovTitle: string
     MovYear: number
@@ -11,21 +16,24 @@ export interface iMovie {
     AuditData?: AuditData
 }
 
-export const genreTuple = [
-    "Thriller",
-    "Action",
-    "Comedy",
-    "Drama",
-    "Horror",
-    "Sci-Fi",
-    "Animation",
-    "Adventure",
-    "Family"
-] as const
+export type GenreUnion =
+    | "Thriller"
+    | "Action"
+    | "Comedy"
+    | "Drama"
+    | "Horror"
+    | "Sci-Fi"
+    | "Animation"
+    | "Adventure"
+    | "Family"
+    | "Romance"
+    | "Mystery"
+    | "Crime"
+    | "War"
+    | "Biography"
+    | "History"
+    | "Music"
+    | "Musical"
+    | "Western"
 
-export type Genre = typeof genreTuple
-
-export interface MovProdCompanies {
-    country: string
-    name: string
-}
+export type Genre = [GenreUnion, GenreUnion, GenreUnion] | [GenreUnion, GenreUnion] | [GenreUnion]

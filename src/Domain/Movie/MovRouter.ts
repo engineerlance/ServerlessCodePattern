@@ -1,7 +1,8 @@
 import { APIGatewayProxyEvent } from "aws-lambda"
 import { InvalidPayload } from "src/Error/ErrorClasses"
+import { paramsValidator } from "src/Lib/utils"
 import { createMov, readMov, removeMov } from "./MovService"
-import { movieSchema, paramsValidator, TMovie } from "./MovValidator"
+import { movieSchema, TMovie } from "./MovValidator"
 
 export const router = async (route: APIGatewayProxyEvent["resource"], payload: APIGatewayProxyEvent) => {
     switch (route) {
@@ -16,7 +17,7 @@ export const router = async (route: APIGatewayProxyEvent["resource"], payload: A
                 return await readMov(payload.pathParameters.MovTitle!)
             }
             if (payload.httpMethod === "DELETE" && payload.pathParameters?.MovTitle) {
-                return await readMov(payload.pathParameters.MovTitle!)
+                return await removeMov(payload.pathParameters.MovTitle!)
             }
         }
 

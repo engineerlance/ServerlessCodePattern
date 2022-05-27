@@ -1,6 +1,6 @@
 import { DynamoDB } from "aws-sdk"
 
-let client: any = null
+let client: DynamoDB.DocumentClient | null = null
 
 export const createDbClient = (): DynamoDB.DocumentClient => {
     if (!client) {
