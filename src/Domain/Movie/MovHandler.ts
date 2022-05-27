@@ -1,9 +1,9 @@
-import { APIGatewayProxyEvent, APIGatewayProxyHandler } from "aws-lambda"
+import { APIGatewayProxyHandler } from "aws-lambda"
 import { router } from "./MovRouter"
 import { BaseError } from "../../Error/ErrorClasses"
 import { ZodError } from "zod"
 
-export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
+export const main: APIGatewayProxyHandler = async (event) => {
     try {
         const result = await router(event.resource, event)
         return {
