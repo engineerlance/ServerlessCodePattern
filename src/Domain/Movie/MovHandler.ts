@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler } from "aws-lambda"
 import { router } from "./MovRouter"
 import { BaseError } from "../../Error/ErrorClasses"
+import { ZodError } from "zod"
 
 export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
     try {
@@ -16,6 +17,14 @@ export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) 
                 body: JSON.stringify(error.serializeErrors())
             }
         }
+        if (error instanceof ZodError)
+            return {
+                statusCode: 400,
+                body: JSON.stringify({
+                    error_code: "Invalid_Payload",
+                    error_message: error.format()
+                })
+            }
         console.error(error)
         return {
             statusCode: 500,
