@@ -27,7 +27,7 @@ export const createMov = async (params: TMovie): Promise<Movie> => {
         }
     })
 
-    if (movieobj.MovYear && (await validateRights(movieobj.MovTitle, movieobj.MovYear))) {
+    if (movieobj.props.MovYear && (await validateRights(movieobj.props.MovTitle, movieobj.props.MovYear))) {
         const addMovie = new addMovieRepo()
         await addMovie.save(movieobj)
         return movieobj
@@ -36,9 +36,12 @@ export const createMov = async (params: TMovie): Promise<Movie> => {
     }
 }
 
-export const readMov = async (MovTitle: string): Promise<Movie> => {
+export const readMov = async (MovTitle: string): Promise<any> => {
     const getMovie = new getMovieRepo()
-    return await getMovie.get(MovTitle)
+    const movie = await getMovie.get(MovTitle)
+    return {
+        ...movie.props
+    }
 }
 
 export const removeMov = async (MovTitle: string) => {

@@ -8,13 +8,13 @@ export class addMovieRepo extends baseMovieRepo {
     toItem(movie: Movie) {
         return {
             ...this.keys(movie),
-            MovTitle: movie.MovTitle,
-            MovYear: movie.MovYear,
-            MovLang: movie.MovLang,
-            MovCountry: movie.MovCountry,
-            MovGenre: movie.MovGenre,
-            MovProdCompanies: movie.MovProdCompanies,
-            MovDirector: movie.MovDirector,
+            MovTitle: movie.props.MovTitle,
+            MovYear: movie.props.MovYear,
+            MovLang: movie.props.MovLang,
+            MovCountry: movie.props.MovCountry,
+            MovGenre: movie.props.MovGenre,
+            MovProdCompanies: movie.props.MovProdCompanies,
+            MovDirector: movie.props.MovDirector,
             ...movie.auditObj()
         }
     }

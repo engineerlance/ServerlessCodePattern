@@ -1,4 +1,4 @@
-import { Genre, iMovie, MovProdCompanies } from "./MovInterface"
+import { iMovie } from "./MovInterface"
 import { BaseEntity } from "./BaseEntity"
 import ISO6391 from "iso-639-1"
 
@@ -8,23 +8,11 @@ function validateLang(lang: string) {
 }
 
 export class Movie extends BaseEntity {
-    readonly MovTitle: string
-    readonly MovYear?: number
-    readonly MovLang?: string
-    readonly MovCountry?: string
-    readonly MovGenre?: Genre
-    readonly MovDirector?: string
-    readonly MovProdCompanies?: MovProdCompanies[]
+    props: iMovie
 
     constructor(props: iMovie) {
         super(props.AuditData ? props.AuditData : {})
-        this.MovTitle = props.MovTitle
-        this.MovYear = props.MovYear
-        this.MovLang = props.MovLang
-        this.MovCountry = props.MovCountry
-        this.MovGenre = props.MovGenre
-        this.MovDirector = props.MovDirector
-        this.MovProdCompanies = props.MovProdCompanies
+        this.props = props
     }
 
     static create(props: iMovie) {

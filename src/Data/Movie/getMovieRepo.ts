@@ -7,7 +7,7 @@ export class getMovieRepo extends baseMovieRepo {
     toItem(movie: Movie) {
         return {
             ...this.keys(movie),
-            MovTitle: movie.MovTitle
+            MovTitle: movie.props.MovTitle
         }
     }
 
